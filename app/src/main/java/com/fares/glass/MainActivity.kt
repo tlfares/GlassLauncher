@@ -84,7 +84,8 @@ class MainActivity : ComponentActivity() {
             // The layout is designed for a 960 dp wide screen (a 1080p Fire TV). TVs report all kinds of
             // densities, so scale it to fill the screen whatever the resolution and dpi.
             val width = resources.displayMetrics.widthPixels
-            val font = LocalDensity.current.fontScale
+            // The layout has no room for enlarged text (TV font size settings): never scale it up.
+            val font = LocalDensity.current.fontScale.coerceAtMost(1f)
             CompositionLocalProvider(LocalDensity provides Density(width / 960f, font)) {
                 HomeScreen(
                     repo, home, backdrop, wallpaper.value, wallpaperName.value, cc,

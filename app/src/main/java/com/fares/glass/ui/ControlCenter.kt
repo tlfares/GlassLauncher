@@ -461,15 +461,15 @@ class ControlCenter(
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     for (c in 0 until 2) {
                         val i = r * 2 + c
-                        ModuleTile(tiles[i], index == i, Modifier.weight(1f))
+                        ModuleTile(tiles[i], index == i, Modifier.weight(1f).tappable { index = i; selectMain() })
                     }
                 }
                 Spacer(Modifier.height(10.dp))
             }
-            SystemModule(index == 6)
+            SystemModule(index == 6, Modifier.tappable { index = 6; selectMain() })
             Spacer(Modifier.weight(1f))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                shortcuts.forEachIndexed { k, s -> RoundButton(s.icon, index == 7 + k) }
+                shortcuts.forEachIndexed { k, s -> RoundButton(s.icon, index == 7 + k, Modifier.tappable { index = 7 + k; selectMain() }) }
             }
             Spacer(Modifier.height(8.dp))
             BasicText(
@@ -513,13 +513,13 @@ class ControlCenter(
     }
 
     @Composable
-    private fun SystemModule(focused: Boolean) {
+    private fun SystemModule(focused: Boolean, modifier: Modifier) {
         val f = focusAmount(focused)
         val fg = lerp(White, Ink, f)
         val mem = remember(tick) { sys.memory() }
         val disk = remember(tick) { sys.storage() }
         Column(
-            Modifier
+            modifier
                 .fillMaxWidth()
                 .graphicsLayer { scaleX = 1f + 0.03f * f; scaleY = 1f + 0.03f * f }
                 .background(lerp(White.copy(alpha = 0.10f), White.copy(alpha = 0.95f), f), RoundedCornerShape(24.dp))
@@ -560,10 +560,10 @@ class ControlCenter(
     }
 
     @Composable
-    private fun RoundButton(icon: ImageVector, focused: Boolean) {
+    private fun RoundButton(icon: ImageVector, focused: Boolean, modifier: Modifier) {
         val f = focusAmount(focused)
         Box(
-            Modifier
+            modifier
                 .size(44.dp)
                 .graphicsLayer { scaleX = 1f + 0.1f * f; scaleY = 1f + 0.1f * f }
                 .clip(CircleShape)
@@ -578,7 +578,7 @@ class ControlCenter(
     private fun DetailPage(p: CcPage) {
         val list = rows()
         Column {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.tappable { page = CcPage.Main; forgetArmed = null }, verticalAlignment = Alignment.CenterVertically) {
                 Image(rememberVectorPainter(Icons.Rounded.ChevronLeft), null, Modifier.size(26.dp), colorFilter = ColorFilter.tint(White.copy(alpha = 0.7f)))
                 BasicText(if (p == CcPage.Wifi) "Wi-Fi" else "Bluetooth", style = txt(White, 24.sp, FontWeight.Bold))
             }
@@ -603,6 +603,7 @@ class ControlCenter(
                 val fg = lerp(White, Ink, f)
                 Row(
                     Modifier
+                        .tappable { rowKey = r.key; selectDetail() }
                         .fillMaxWidth()
                         .padding(vertical = 2.dp)
                         .graphicsLayer { scaleX = 1f + 0.025f * f; scaleY = 1f + 0.025f * f }

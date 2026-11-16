@@ -16,6 +16,11 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
@@ -106,15 +111,17 @@ fun HomeScreen(
     fun tileX(i: Int) = Metrics.Margin + (Metrics.TileW + Metrics.Gap) * (i % Metrics.COLS)
     fun tileY(i: Int) = (Metrics.TopRowY + Metrics.Pitch * (i / Metrics.COLS)).value - scrollTarget
 
-    fun launchFocused() {
-        val entry = focused ?: return
+    fun launchAt(i: Int) {
+        val entry = apps.getOrNull(i) ?: return
         val r = with(density) {
-            val x = tileX(state.focus).roundToPx()
-            val y = tileY(state.focus).dp.roundToPx()
+            val x = tileX(i).roundToPx()
+            val y = tileY(i).dp.roundToPx()
             Rect(x, y, x + Metrics.TileW.roundToPx(), y + Metrics.TileH.roundToPx())
         }
         onLaunch(entry, r)
     }
+
+    fun launchFocused() = launchAt(state.focus)
 
     fun move(dx: Int, dy: Int) {
         when (state.mode) {
@@ -168,6 +175,23 @@ fun HomeScreen(
 
     fun longPress() {
         if (state.mode == Mode.Browse && focused != null) {
+            state.menuIndex = 0
+            state.mode = Mode.Menu
+        }
+    }
+
+    // Touch screens: tap opens an app, long press opens its menu.
+    fun tapTile(i: Int) {
+        when (state.mode) {
+            Mode.Jiggle -> { repo.saveOrder(); state.mode = Mode.Browse }
+            Mode.Control, Mode.Menu -> Unit
+            else -> { state.mode = Mode.Browse; launchAt(i); state.focus = i }
+        }
+    }
+
+    fun longTile(i: Int) {
+        if (state.mode == Mode.Browse || state.mode == Mode.Top) {
+            state.focus = i
             state.menuIndex = 0
             state.mode = Mode.Menu
         }
@@ -229,11 +253,33 @@ fun HomeScreen(
         return true
     }
 
+    val moveNow by rememberUpdatedState<(Int, Int) -> Unit>(::move)
+
     Box(
         Modifier
             .fillMaxSize()
             .background(Color.Black)
             .onSizeChanged { backdrop.screen = it }
+            .pointerInput(Unit) {
+                // Swiping the grid moves one row at a time. Watched before the tiles, which keep their taps.
+                val step = 56.dp.toPx()
+                awaitEachGesture {
+                    val down = awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
+                    var travelled = 0f
+                    var lastY = down.position.y
+                    while (true) {
+                        val change = awaitPointerEvent(PointerEventPass.Initial).changes.firstOrNull { it.id == down.id }
+                        if (change == null || !change.pressed) break
+                        travelled += change.position.y - lastY
+                        lastY = change.position.y
+                        while (kotlin.math.abs(travelled) > step) {
+                            val up = travelled < 0
+                            travelled += if (up) step else -step
+                            if (state.mode == Mode.Browse && (up || state.row > 0)) moveNow(0, if (up) 1 else -1)
+                        }
+                    }
+                }
+            }
             .focusRequester(focusRequester)
             .focusable()
             .onPreviewKeyEvent(::onKey),
@@ -271,6 +317,7 @@ fun HomeScreen(
                 TopBar(
                     backdrop, top, if (state.mode == Mode.Top) state.topIndex else -1,
                     Modifier.align(Alignment.TopEnd).padding(top = 34.dp, end = Metrics.Margin).graphicsLayer { alpha = headerAlpha },
+                    onPick = { state.topIndex = it; state.mode = Mode.Top; select() },
                 )
             }
         }
@@ -309,12 +356,16 @@ fun HomeScreen(
                             // Rows scrolling off the top fade out, as on tvOS.
                             val y = baseY - scroll.value
                             alpha = ((y + 60f) / 100f).coerceIn(0f, 1f)
-                        },
+                        }
+                        .tappable(onLong = { longTile(i) }) { tapTile(i) },
                 )
             }
         }
 
         Box(Modifier.fillMaxSize().graphicsLayer { alpha = dim }.background(Color.Black))
+        // Touch: tapping outside a menu or the Control Center closes it.
+        if (state.mode == Mode.Menu) Box(Modifier.fillMaxSize().tappable { state.mode = Mode.Browse })
+        if (state.mode == Mode.Control && !cc.typing) Box(Modifier.fillMaxSize().tappable { cc.close() })
 
         AnimatedVisibility(
             state.mode == Mode.Jiggle, Modifier.align(Alignment.TopCenter).padding(top = 32.dp),
@@ -345,7 +396,7 @@ fun HomeScreen(
                 ),
                 exit = fadeOut(tween(140)) + scaleOut(targetScale = 0.94f),
             ) {
-                ContextMenu(backdrop, focused.label, menu, state.menuIndex, Modifier)
+                ContextMenu(backdrop, focused.label, menu, state.menuIndex, Modifier, onPick = { state.menuIndex = it; select() })
             }
         }
         cc.PasswordLayer(backdrop) { focusRequester.requestFocus() }

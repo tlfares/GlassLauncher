@@ -3,6 +3,10 @@ package com.fares.glass.ui
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.ui.composed
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -68,6 +72,16 @@ fun txt(color: Color, size: TextUnit, weight: FontWeight = FontWeight.Normal) =
     TextStyle(color = color, fontSize = size, fontWeight = weight, fontFamily = Typo.family)
 
 private val white = Color.White
+
+/** Touch screens: a tap (and optionally a long press) on this element. Remote control navigation is unaffected. */
+fun Modifier.tappable(onLong: (() -> Unit)? = null, onTap: () -> Unit): Modifier = composed {
+    val tap by rememberUpdatedState(onTap)
+    val long by rememberUpdatedState(onLong)
+    pointerInput(onLong != null) {
+        detectTapGestures(onLongPress = if (onLong != null) ({ long?.invoke() }) else null, onTap = { tap() })
+    }
+}
+
 private val ink = Color(0xFF111114)
 
 /** tvOS button: translucent at rest, a bright white plate with dark text when focused. */
@@ -94,7 +108,7 @@ private fun GlassButton(item: ControlItem, focused: Boolean, modifier: Modifier)
 }
 
 @Composable
-fun ContextMenu(backdrop: Backdrop, title: String, items: List<ControlItem>, focus: Int, modifier: Modifier) {
+fun ContextMenu(backdrop: Backdrop, title: String, items: List<ControlItem>, focus: Int, modifier: Modifier, onPick: (Int) -> Unit = {}) {
     Glass(backdrop, modifier.width(260.dp), RoundedCornerShape(28.dp)) {
         Column(Modifier.padding(12.dp)) {
             BasicText(
@@ -103,7 +117,7 @@ fun ContextMenu(backdrop: Backdrop, title: String, items: List<ControlItem>, foc
                 overflow = TextOverflow.Ellipsis,
             )
             items.forEachIndexed { i, item ->
-                GlassButton(item, i == focus, Modifier.fillMaxWidth())
+                GlassButton(item, i == focus, Modifier.fillMaxWidth().tappable { onPick(i) })
                 if (i < items.lastIndex) Spacer(Modifier.height(6.dp))
             }
         }
@@ -177,14 +191,14 @@ fun topItems() = listOf(
 
 /** Top-right buttons: Liquid Glass pills with a white plate when focused. */
 @Composable
-fun TopBar(backdrop: Backdrop, items: List<ControlItem>, focus: Int, modifier: Modifier) {
+fun TopBar(backdrop: Backdrop, items: List<ControlItem>, focus: Int, modifier: Modifier, onPick: (Int) -> Unit = {}) {
     Row(modifier, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         items.forEachIndexed { i, item ->
             val f by animateFloatAsState(if (i == focus) 1f else 0f, spring(stiffness = 600f), label = "top")
             val fg = lerpColor(white, ink, f)
             Glass(
                 backdrop,
-                Modifier.graphicsLayer { scaleX = 1f + 0.08f * f; scaleY = 1f + 0.08f * f },
+                Modifier.graphicsLayer { scaleX = 1f + 0.08f * f; scaleY = 1f + 0.08f * f }.tappable { onPick(i) },
                 RoundedCornerShape(50),
                 tint = Color.White.copy(alpha = 0.10f),
             ) {

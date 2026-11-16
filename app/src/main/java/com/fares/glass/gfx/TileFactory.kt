@@ -38,11 +38,21 @@ class TileFactory(context: Context) {
     }.getOrDefault(Typeface.create("sans-serif", Typeface.NORMAL))
 
 
+    /** The icon at the highest density the app ships, so small legacy icons are not enlarged from a low-res version. */
+    private fun sharpIcon(info: android.content.pm.ActivityInfo): Drawable? {
+        val app = info.applicationInfo ?: return null
+        val res = info.icon.takeIf { it != 0 } ?: app.icon.takeIf { it != 0 } ?: return null
+        return runCatching {
+            @Suppress("DEPRECATION")
+            pm.getResourcesForApplication(app).getDrawableForDensity(res, 640)
+        }.getOrNull()
+    }
+
     fun build(e: AppEntry): AppVisual {
         val info = runCatching { pm.getActivityInfo(ComponentName(e.pkg, e.activity), 0) }.getOrNull()
         // ComponentInfo.loadBanner falls back to the application banner when the activity has none.
         val banner = info?.loadBanner(pm)
-        val icon = info?.loadIcon(pm) ?: pm.defaultActivityIcon
+        val icon = info?.let { sharpIcon(it) } ?: info?.loadIcon(pm) ?: pm.defaultActivityIcon
         val bmp = Bitmap.createBitmap(W, H, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bmp)
         when {
