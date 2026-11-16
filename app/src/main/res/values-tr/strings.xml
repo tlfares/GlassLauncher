@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Home -->
+    <string name="greeting_morning">Günaydın</string>
+    <string name="greeting_afternoon">İyi günler</string>
+    <string name="greeting_evening">İyi akşamlar</string>
+    <string name="greeting_morning_name">Günaydın, %s</string>
+    <string name="greeting_afternoon_name">İyi günler, %s</string>
+    <string name="greeting_evening_name">İyi akşamlar, %s</string>
+    <string name="top_settings">Ayarlar</string>
+    <string name="menu_move">Taşı</string>
+    <string name="menu_hide">Gizle</string>
+    <string name="menu_info">Uygulama bilgisi</string>
+    <string name="hint_move">“%s” uygulamasını yön tuşlarıyla taşıyın · Bittiğinde OK tuşuna basın</string>
+
+    <!-- Control Center: modules -->
+    <string name="cc_off">Kapalı</string>
+    <string name="cc_not_connected">Bağlı değil</string>
+    <string name="cc_unavailable">Kullanılamıyor</string>
+    <string name="cc_no_devices">Cihaz yok</string>
+    <plurals name="cc_connected_count">
+        <item quantity="one">%d bağlı</item>
+        <item quantity="other">%d bağlı</item>
+    </plurals>
+    <string name="cc_animations">Animasyonlar</string>
+    <string name="cc_anim_adb">ADB ile etkinleştir</string>
+    <string name="cc_anim_normal">Normal</string>
+    <string name="cc_anim_off">Kapalı</string>
+    <string name="cc_anim_fast">Hızlı ×%.1f</string>
+    <string name="cc_wallpaper">Duvar kâğıdı</string>
+    <string name="cc_top_shelf_app">Uygulama renkleri</string>
+    <string name="cc_hidden_apps">Gizli uygulamalar</string>
+    <string name="cc_hidden_none">Yok</string>
+    <string name="cc_hidden_count">%d · Göstermek için OK tuşuna basın</string>
+    <string name="cc_system">Sistem</string>
+    <string name="cc_memory">Bellek</string>
+    <string name="cc_storage">Depolama</string>
+
+    <!-- Control Center: Wi-Fi -->
+    <string name="wifi_networks">Ağlar</string>
+    <string name="wifi_searching">Ağlar aranıyor…</string>
+    <string name="wifi_none_found">Ağ bulunamadı</string>
+    <string name="wifi_rescan">Yeniden ara</string>
+    <string name="wifi_system_settings">Sistem ağ ayarları</string>
+    <string name="wifi_connected">Bağlandı</string>
+    <string name="wifi_connected_ip">Bağlandı · %s</string>
+    <string name="wifi_saved">Kayıtlı</string>
+    <string name="wifi_password">Şifre</string>
+    <string name="wifi_password_for">“%s” için</string>
+    <string name="wifi_password_hint">Bağlanmak için klavyeden onaylayın · İptal için Geri tuşuna basın</string>
+    <string name="wifi_connecting">%s ağına bağlanılıyor…</string>
+    <string name="wifi_scan_no_location">Arama yapılamıyor: konum izni eksik</string>
+    <string name="wifi_location_off">Ağları görmek için sistem ayarlarından konumu açın</string>
+    <string name="wifi_save_failed">Bu ağ kaydedilemedi</string>
+    <string name="wifi_connect_failed">%s ağına bağlanılamadı</string>
+
+    <!-- Control Center: Bluetooth -->
+    <string name="bt_my_devices">Cihazlarım</string>
+    <string name="bt_other_devices">Diğer cihazlar</string>
+    <string name="bt_none_paired">Eşleştirilmiş cihaz yok</string>
+    <string name="bt_connected_kind">Bağlı · %s</string>
+    <string name="bt_not_connected_kind">Bağlı değil · %s</string>
+    <string name="bt_ok_to_pair">Eşleştirmek için OK · %s</string>
+    <string name="bt_searching">Aranıyor…</string>
+    <string name="bt_search">Cihazları ara</string>
+    <string name="bt_system_settings">Sistem ayarlarındaki cihazlar</string>
+    <string name="bt_protected">Uzaktan kumandaları ve kolları sistem ayarlarından yönetin</string>
+    <string name="bt_forget_confirm">%s cihazını unutmak için tekrar OK tuşuna basın</string>
+    <string name="bt_pairing">%s ile eşleştiriliyor…</string>
+    <string name="bt_paired">%s eşleştirildi</string>
+    <string name="bt_pair_failed">%s ile eşleştirilemedi</string>
+    <string name="bt_forgotten">%s unutuldu</string>
+    <string name="bt_forget_failed">%s unutulamadı</string>
+    <string name="bt_discovering">Cihazlar aranıyor…</string>
+    <string name="bt_discover_failed">Arama yapılamıyor (konum?)</string>
+    <string name="bt_permission_missing">Bluetooth izni eksik</string>
+    <string name="bt_the_device">cihaz</string>
+    <string name="bt_device">Cihaz</string>
+    <string name="bt_kind_audio">Ses</string>
+    <string name="bt_kind_remote">Uzaktan kumanda</string>
+    <string name="bt_kind_gamepad">Oyun kolu / klavye</string>
+    <string name="bt_kind_phone">Telefon</string>
+    <string name="bt_kind_computer">Bilgisayar</string>
+
+    <!-- Settings shortcuts -->
+    <string name="section_display">Ekran ve ses</string>
+    <string name="section_devices">Cihazlar</string>
+    <string name="section_apps">Uygulamalar</string>
+    <string name="section_accessibility">Erişilebilirlik</string>
+    <string name="section_about">Hakkında</string>
+    <string name="section_network">Ağ</string>
+    <string name="section_all">Tüm ayarlar</string>
+
+    <!-- System info -->
+    <string name="usage_free_of">%2$s içinden %1$s boş</string>
+    <string name="usage_free">%s boş</string>
+    <string name="size_mb">%d MB</string>
+    <string name="size_gb">%.1f GB</string>
+
+    <!-- Wallpapers -->
+    <string name="wallpaper_liquid">Akışkan</string>
+    <string name="wallpaper_aurora">Aurora</string>
+    <string name="wallpaper_dusk">Gün Batımı</string>
+    <string name="wallpaper_graphite">Grafit</string>
+    <string name="wallpaper_photo">Fotoğraf</string>
+</resources>
