@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Home -->
+    <string name="greeting_morning">Dobro jutro</string>
+    <string name="greeting_afternoon">Dobar dan</string>
+    <string name="greeting_evening">Dobra večer</string>
+    <string name="greeting_morning_name">Dobro jutro, %s</string>
+    <string name="greeting_afternoon_name">Dobar dan, %s</string>
+    <string name="greeting_evening_name">Dobra večer, %s</string>
+    <string name="top_settings">Postavke</string>
+    <string name="menu_move">Premjesti</string>
+    <string name="menu_hide">Sakrij</string>
+    <string name="menu_info">Informacije o aplikaciji</string>
+    <string name="hint_move">Premjesti „%s” strelicama · OK za završetak</string>
+
+    <!-- Control Center: modules -->
+    <string name="cc_off">Isključeno</string>
+    <string name="cc_not_connected">Nije povezano</string>
+    <string name="cc_unavailable">Nedostupno</string>
+    <string name="cc_no_devices">Nema uređaja</string>
+    <plurals name="cc_connected_count">
+        <item quantity="one">%d povezan</item>
+        <item quantity="few">%d povezana</item>
+        <item quantity="other">%d povezanih</item>
+    </plurals>
+    <string name="cc_animations">Animacije</string>
+    <string name="cc_anim_adb">Uključi putem ADB-a</string>
+    <string name="cc_anim_normal">Normalno</string>
+    <string name="cc_anim_off">Isključeno</string>
+    <string name="cc_anim_fast">Brzo ×%.1f</string>
+    <string name="cc_wallpaper">Pozadina</string>
+    <string name="cc_top_shelf_app">Boje aplikacije</string>
+    <string name="cc_hidden_apps">Skriveno</string>
+    <string name="cc_hidden_none">Nema</string>
+    <string name="cc_hidden_count">%d · OK za prikaz</string>
+    <string name="cc_system">Sustav</string>
+    <string name="cc_memory">RAM</string>
+    <string name="cc_storage">Pohrana</string>
+
+    <!-- Control Center: Wi-Fi -->
+    <string name="wifi_networks">Mreže</string>
+    <string name="wifi_searching">Traženje mreža…</string>
+    <string name="wifi_none_found">Nema pronađenih mreža</string>
+    <string name="wifi_rescan">Traži ponovno</string>
+    <string name="wifi_system_settings">Mrežne postavke sustava</string>
+    <string name="wifi_connected">Povezano</string>
+    <string name="wifi_connected_ip">Povezano · %s</string>
+    <string name="wifi_saved">Spremljeno</string>
+    <string name="wifi_password">Lozinka</string>
+    <string name="wifi_password_for">za „%s”</string>
+    <string name="wifi_password_hint">Potvrdite na tipkovnici za povezivanje · Natrag za odustajanje</string>
+    <string name="wifi_connecting">Povezivanje s %s…</string>
+    <string name="wifi_scan_no_location">Traženje nije moguće: nedostaje dopuštenje za lokaciju</string>
+    <string name="wifi_location_off">Uključite lokaciju u postavkama kako biste vidjeli mreže</string>
+    <string name="wifi_save_failed">Mreža nije mogla biti spremljena</string>
+    <string name="wifi_connect_failed">Povezivanje s %s nije uspjelo</string>
+
+    <!-- Control Center: Bluetooth -->
+    <string name="bt_my_devices">Moji uređaji</string>
+    <string name="bt_other_devices">Ostali uređaji</string>
+    <string name="bt_none_paired">Nema uparenih uređaja</string>
+    <string name="bt_connected_kind">Povezano · %s</string>
+    <string name="bt_not_connected_kind">Nije povezano · %s</string>
+    <string name="bt_ok_to_pair">OK za uparivanje · %s</string>
+    <string name="bt_searching">Traženje…</string>
+    <string name="bt_search">Traži uređaje</string>
+    <string name="bt_system_settings">Uređaji u postavkama sustava</string>
+    <string name="bt_protected">Upravljajte daljinskim upravljačima i kontrolerima u postavkama sustava</string>
+    <string name="bt_forget_confirm">Ponovno pritisnite OK za uklanjanje uređaja %s</string>
+    <string name="bt_pairing">Uparivanje s %s…</string>
+    <string name="bt_paired">%s je uparen</string>
+    <string name="bt_pair_failed">Uparivanje s %s nije uspjelo</string>
+    <string name="bt_forgotten">%s je uklonjen</string>
+    <string name="bt_forget_failed">%s nije mogao biti uklonjen</string>
+    <string name="bt_discovering">Traženje uređaja…</string>
+    <string name="bt_discover_failed">Traženje nije moguće (lokacija?)</string>
+    <string name="bt_permission_missing">Nedostaje dopuštenje za Bluetooth</string>
+    <string name="bt_the_device">uređaj</string>
+    <string name="bt_device">Uređaj</string>
+    <string name="bt_kind_audio">Audio</string>
+    <string name="bt_kind_remote">Daljinski upravljač</string>
+    <string name="bt_kind_gamepad">Kontroler / tipkovnica</string>
+    <string name="bt_kind_phone">Telefon</string>
+    <string name="bt_kind_computer">Računalo</string>
+
+    <!-- Settings shortcuts -->
+    <string name="section_display">Slika i zvuk</string>
+    <string name="section_devices">Uređaji</string>
+    <string name="section_apps">Aplikacije</string>
+    <string name="section_accessibility">Pristupačnost</string>
+    <string name="section_about">Informacije</string>
+    <string name="section_network">Mreža</string>
+    <string name="section_all">Sve postavke</string>
+
+    <!-- System info -->
+    <string name="usage_free_of">%1$s slobodno od %2$s</string>
+    <string name="usage_free">%s slobodno</string>
+    <string name="size_mb">%d MB</string>
+    <string name="size_gb">%.1f GB</string>
+
+    <!-- Wallpapers -->
+    <string name="wallpaper_liquid">Tekuće</string>
+    <string name="wallpaper_aurora">Aurora</string>
+    <string name="wallpaper_dusk">Sumrak</string>
+    <string name="wallpaper_graphite">Grafit</string>
+    <string name="wallpaper_photo">Fotografija</string>
+</resources>
